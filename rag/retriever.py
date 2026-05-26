@@ -1,26 +1,11 @@
-import chromadb
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
+_store: list = []
 
 def store_result(results):
-    store_search = chroma_client.get_or_create_collection(name="store_search")
+    global _store
+    _store = results["results"]
 
-    ids = []
-    documents= [] 
-    metadatas= []
-
-    for i, result in enumerate(results["results"]):
-        ids.append(str(i))
-        documents.append(result["content"])
-        metadatas.append({ "url" : result["url"]})
-    store_search.add(ids = ids, documents= documents, metadatas= metadatas
-                     )
-
-def retrieve_context (query):
-    store_retrieve = chroma_client.get_or_create_collection(name="store_search")
-    results = store_retrieve.query(
-
-        query_texts= [query],
-        n_results= 3
-    )
-    return results
-
+def retrieve_context(query: str) -> str:
+    if not _store:
+        return ""
+    # Just join all content into one context string
+    return "\n\n".join(r["content"] for r in _store)
