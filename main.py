@@ -17,7 +17,7 @@ model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0)
 app = FastAPI()
 
 origins = [ "http://localhost",
-    "http://localhost:3000",]
+    "http://localhost:3000","https://travel-companion-frontend-sandy.vercel.app/"]
 
 app.add_middleware(
     CORSMiddleware,
