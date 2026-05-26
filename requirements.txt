@@ -7,3 +7,5 @@ langchain
 langchain-groq
 langchain-community
 tavily-python
+chromadb
+pysqlite3-binary
