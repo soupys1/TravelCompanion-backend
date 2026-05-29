@@ -65,7 +65,7 @@ def health():
     raise HTTPException(status_code=503, detail="Missing API keys")
 
 
-# ── Plan (async + thread executor so it never blocks the server) ─────────────
+# Plan (async + thread executor so it never blocks the server) ─────────────
 @app.post("/plan", status_code=status.HTTP_200_OK)
 async def plan_trip(request: TripRequest):
     try:
@@ -75,12 +75,19 @@ async def plan_trip(request: TripRequest):
             graph.graph.invoke,
             {"user_input": request.user_input},
         )
+        # ADD THIS — check your Render logs
+        print("GRAPH RESULT KEYS:", result.keys())
+        print("PLAN:", result.get("plan", "MISSING")[:100])
+        print("RESEARCH:", result.get("research", "MISSING")[:100])
+        print("BUDGET:", result.get("budget", "MISSING")[:100])
+        
         return {
             "plan":     result["plan"],
             "research": result["research"],
             "budget":   result["budget"],
         }
     except Exception as e:
+        print("ERROR:", str(e))  # ADD THIS TOO
         raise HTTPException(status_code=500, detail=str(e))
 
 
