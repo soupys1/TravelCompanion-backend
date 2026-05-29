@@ -12,7 +12,7 @@ model = ChatGroq(model="llama-3.3-70b-versatile", temperature=0)
 
 def budget_node(state: TripState):
     budgetrange = state["budget_range"]
-    research = state["research"]
+    
 
     message = [
     SystemMessage(content=f"""You are a travel budget expert. Based on budget range '{budgetrange}' and the research provided, create a detailed cost breakdown as plain readable text. 
